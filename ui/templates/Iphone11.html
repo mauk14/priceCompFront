@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceWise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="/static/styles/styles.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a style="text-decoration: none" href="/">
+                <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
+            </a>
+        </div>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="product search">
+            <button class="search-button">Search</button>
+        </div>
+        {{ if .email }}
+        <a href="/logout">
+            <button  class="login-button">{{ .email }}</button>
+        </a>
+        {{ else }}
+        <a href="/login">
+            <button  class="login-button">Log In</button>
+        </a>
+        {{ end }}
+    </div>
+</header>
+
+<div class="category-bar">
+    <a href="#" class="category-item">Mobiles</a>
+    <a href="#" class="category-item">Tablets</a>
+    <a href="#" class="category-item">Laptops</a>
+    <a href="#" class="category-item">Television</a>
+    <a href="#" class="category-item">Headphones</a>
+</div>
+
+<div class="product-detail-section">
+    <div class="product-gallery">
+        {{ range .product.Images }}
+        <img src="http://localhost:4002/data-collection/image/{{.Id}}" alt="Thumbnail 1" class="main-product-image">
+        {{ end }}
+<!--        <img id="main-product-image" src="https://im9.cz/iR/importprodukt-orig/614/614df0398877927532c95ae5b2c7bc7d&#45;&#45;mm2000x2000.jpg" alt="Main Product" class="main-product-image">-->
+        <div class="thumbnail-container">
+            <!-- Thumbnails of the product -->
+<!--            {{ range .product.Images }}-->
+<!--            <img src="http://localhost:4002/data-collection/image/{{.Id}}" alt="Thumbnail 1" class="thumbnail">-->
+<!--            {{ end }}-->
+<!--            <img src="https://im9.cz/iR/importprodukt-orig/8ae/8ae982b172235c1a032de8574d8cab04&#45;&#45;mm2000x2000.jpg" alt="Thumbnail 1" class="thumbnail" onclick="changeImage('https://im9.cz/iR/importprodukt-orig/8ae/8ae982b172235c1a032de8574d8cab04&#45;&#45;mm2000x2000.jpg')">-->
+<!--            <img src="https://im9.cz/iR/importprodukt-orig/31c/31cdc2ad8d44fa039a213567d51c3f99&#45;&#45;mm2000x2000.jpg" alt="Thumbnail 2" class="thumbnail" onclick="changeImage('https://im9.cz/iR/importprodukt-orig/31c/31cdc2ad8d44fa039a213567d51c3f99&#45;&#45;mm2000x2000.jpg')">-->
+            <!-- Add more thumbnails as needed -->
+        </div>
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">{{ .product.Brand }} {{ .product.ProductName }}</h2>
+        <div class="product-rating">
+            <span class="stars">⭐ 96%</span>
+            <span class="number-of-reviews">5 reviews</span>
+        </div>
+        <p class="product-description">
+            {{ .product.Description }}</a>
+        </p>
+        <p class="product-price">{{ .product.AvgPrice }} tenge</p>
+        <div class="product-actions">
+            <a href="#" class="buy-link">Where to buy</a>
+            <a href="#" class="specifications-link">Specifications</a>
+            <a href="#" class="reviews-link">Reviews</a>
+        </div>
+    </div>
+</div>
+
+<div class="purchase-options-section">
+    <h2 class="section-title">Where to buy</h2>
+    <div class="sort-options">
+        <!-- Sorting options, if needed -->
+        <label for="sortby">Sort by:</label>
+        <select name="sortby" id="sortby" onchange="sortStores()">
+            <option value="recommended">Recommended offers</option>
+            <option value="cheapest">The cheapest</option>
+            <option value="rating">Trade rating</option>
+        </select>
+    </div>
+    <div class="stores-list">
+        <!-- Repeat this structure for each store option -->
+        {{ range .product.Prices }}
+        <div class="store" data-price="269991" data-rating="98">
+            <a href="{{ .Shop.Link }}"><span class="store-name">{{ .Shop.ShopName }}</span></a>
+            <span class="stock-info">In stock • 1 variant</span>
+            <span class="store-rating">98% • 311 reviews</span>
+            <span class="price">{{ .Price }} tg</span>
+            <a href="{{ .Link }}" class="shop-link">To the shop</a>
+        </div>
+        {{ end }}
+<!--        <div class="store" data-price="269992" data-rating="100">-->
+<!--            <span class="store-name">Mechta.kz</span>-->
+<!--            <span class="stock-info">In stock • 1 variant</span>-->
+<!--            <span class="store-rating">100% • 7 reviews</span>-->
+<!--            <span class="price">269 992 tg</span>-->
+<!--            <a href="https://www.mechta.kz/product/telefon-sotovyy-apple-iphone-11-128gb-black-eco/?setcity=s1" class="shop-link">To the shop</a>-->
+<!--        </div>-->
+<!--        <div class="store" data-price="269993" data-rating="100">-->
+<!--            <span class="store-name">Sulpak</span>-->
+<!--            <span class="stock-info">In stock • 1 variant</span>-->
+<!--            <span class="store-rating">100% • 19 reviews</span>-->
+<!--            <span class="price">269 993 tg</span>-->
+<!--            <a href="https://www.sulpak.kz/g/smartfon_apple_iphone_11_128gb_slim_box_black_77_2729/astana#reviewTab" class="shop-link">To the shop</a>-->
+<!--        </div>-->
+<!--        <div class="store" data-price="269994" data-rating="100">-->
+<!--            <span class="store-name">Evrika</span>-->
+<!--            <span class="stock-info">In stock • 1 variant</span>-->
+<!--            <span class="store-rating">100% • 1 reviews</span>-->
+<!--            <span class="price">269 994 tg</span>-->
+<!--            <a href="https://evrika.com/catalog/smartfon-iphone-11-128gb-slim-box-white/p7975?recommended_by=instant_search&recommended_code=iphone%2011" class="shop-link">To the shop</a>-->
+<!--        </div>-->
+<!--        <div class="store" data-price="238000" data-rating="100">-->
+<!--            <span class="store-name">KopKop.kz</span>-->
+<!--            <span class="stock-info">In stock • 1 variant</span>-->
+<!--            <span class="store-rating">??% • ??? reviews</span>-->
+<!--            <span class="price">238 000 tg</span>-->
+<!--            <a href="https://docs.google.com/spreadsheets/d/1UCSxPHJOtjXaPWysPDqKNXeKgDH3giTiBxwkxjOXZG0/edit#gid=0" class="shop-link">To the shop</a>-->
+<!--        </div>-->
+
+        <!-- More store options -->
+    </div>
+</div>
+
+
+<!-- Other sections will go here -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="#">What is PriceWise?</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Vacancies</a></li>
+                <li><a href="#">For the media</a></li>
+            </ul>
+        </div>
+        <div class="footer-section customer-service">
+            <h3>For customers</h3>
+            <ul>
+                <li><a href="#">How to buy?</a></li>
+                <li><a href="#">Buy directly from us</a></li>
+                <li><a href="#">Consent settings</a></li>
+                <li><a href="#">Use of cookies</a></li>
+                <li><a href="#">Privacy Protection</a></li>
+            </ul>
+        </div>
+        <div class="footer-section partners">
+            <h3>For partners</h3>
+            <ul>
+                <li><a href="#">Administration of the e-shop</a></li>
+                <li><a href="#">Register a new e-shop</a></li>
+                <li><a href="#">Services for e-shop</a></li>
+                <li><a href="#">Brand services</a></li>
+                <li><a href="#">Data overview</a></li>
+            </ul>
+        </div>
+        <div class="footer-section feedback">
+            <h3>Feedback</h3>
+            <ul>
+                <li><a href="#">Write Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social-media">
+            <h3>Follow us on social networks</h3>
+            <div class="social-icons">
+                <!-- Icons would be inserted here, either as images or icon fonts -->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy; 2024, PriceWiseHub, all rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceWise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/styles.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a style="text-decoration: none" href="/">
+                <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
+            </a>
+        </div>
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="product search">
+            <button class="search-button">Search</button>
+        </div>
+        {{ if .email }}
+        <a href="/logout">
+            <button  class="login-button">{{ .email }}</button>
+        </a>
+        {{ else }}
+        <a href="/login">
+            <button  class="login-button">Log In</button>
+        </a>
+        {{ end }}
+    </div>
+</header>
+
+<div class="category-bar">
+    <a href="#" class="category-item">Mobiles</a>
+    <a href="#" class="category-item">Tablets</a>
+    <a href="#" class="category-item">Laptops</a>
+    <a href="#" class="category-item">Television</a>
+    <a href="#" class="category-item">Headphones</a>
+</div>
+
+<div class="content-area">
+    <h2 class="content-title">Articles, reviews, recommendations</h2>
+    <div class="articles-container">
+        <!-- Repeat the article structure below for each article you want to display -->
+        <div class="article">
+            <a href="link-to-article-or-page.html">
+                <img src="https://mychooz.com/wp-content/uploads/2021/12/luchshie-nakladnye-naushniki-top.jpg" alt="Headphones" class="article-image">
+            </a>            <h3  class="article-title">What characteristics should good headphones have?</h3>
+            <p class="article-description">A guide to the key characteristics of headphones</p>
+        </div>
+        <div class="article">
+            <a href="link-to-article-or-page.html">
+            <img src="https://mychooz.com/wp-content/uploads/2021/12/luchshie-nakladnye-naushniki-top.jpg" alt="Headphones" class="article-image">
+            </a>
+            <h3 class="article-title">What characteristics should good headphones have?</h3>
+            <p class="article-description">A guide to the key characteristics of headphones</p>
+
+        </div>
+        <div class="article">
+            <a href="link-to-article-or-page.html">
+                <img src="https://mychooz.com/wp-content/uploads/2021/12/luchshie-nakladnye-naushniki-top.jpg" alt="Headphones" class="article-image">
+            </a>            <h3 class="article-title">What characteristics should good headphones have?</h3>
+            <p class="article-description">A guide to the key characteristics of headphones</p>
+        </div>
+        <!-- More articles -->
+    </div>
+</div>
+
+<div class="best-seller-section">
+    <h2 class="section-title">Best seller</h2>
+    <div class="product-container">
+        <!-- Repeat the product structure below for each product you want to display -->
+        {{ range .products}}
+        {{ if .}}
+        <div class="product">
+            <a href="/product/{{ .Product_id}}">
+                {{ range .Images }}
+                {{ if .Main_image}}
+                <img src="http://localhost:4002/data-collection/image/{{ .Id}}" alt="Apple iPhone 11" class="product-image">
+                {{ end }}
+                {{ end }}
+            </a>
+            <div class="product-details">
+                <h3 class="product-name">{{ .Brand }} {{ .ProductName}}</h3>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span> <!-- Ideally, use an icon font or SVG for stars -->
+                    <span class="rating">95%</span>
+                    <span class="reviews">5 reviews</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-range">{{ .MinPrice }} - {{ .MaxPrice }}</span>
+                    <span class="store-count">in 5 stores</span>
+                </div>
+            </div>
+        </div>
+        {{ else }}
+        <div class="product">
+            <a href="/product/1">
+                <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSmmu-3pbXFRRx34DmEWiQyYN_UL5iyTZEh66ovQWSC0lM3VyHk6MzkLjik1ulZNg8DDxfhSs5IE1aew4vohJma4hptKWlMULinaiUo-4XdzUfGzml496TAcQ0m3hTOz5HboCUa1HLQPtQ&usqp=CAc" alt="Apple iPhone 11" class="product-image">
+            </a>
+            <div class="product-details">
+                <h3 class="product-name">Apple iPhone 11 128GB</h3>
+                <div class="product-rating">
+                    <span class="stars">★★★★★</span> <!-- Ideally, use an icon font or SVG for stars -->
+                    <span class="rating">95%</span>
+                    <span class="reviews">5 reviews</span>
+                </div>
+                <div class="product-price">
+                    <span class="price-range">238 000 - 269 994 tg</span>
+                    <span class="store-count">in 5 stores</span>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+        {{ end }}
+
+        <!-- More products -->
+    </div>
+</div>
+
+
+<!-- Other sections will go here -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="#">What is PriceWise?</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Vacancies</a></li>
+                <li><a href="#">For the media</a></li>
+            </ul>
+        </div>
+        <div class="footer-section customer-service">
+            <h3>For customers</h3>
+            <ul>
+                <li><a href="#">How to buy?</a></li>
+                <li><a href="#">Buy directly from us</a></li>
+                <li><a href="#">Consent settings</a></li>
+                <li><a href="#">Use of cookies</a></li>
+                <li><a href="#">Privacy Protection</a></li>
+            </ul>
+        </div>
+        <div class="footer-section partners">
+            <h3>For partners</h3>
+            <ul>
+                <li><a href="#">Administration of the e-shop</a></li>
+                <li><a href="#">Register a new e-shop</a></li>
+                <li><a href="#">Services for e-shop</a></li>
+                <li><a href="#">Brand services</a></li>
+                <li><a href="#">Data overview</a></li>
+            </ul>
+        </div>
+        <div class="footer-section feedback">
+            <h3>Feedback</h3>
+            <ul>
+                <li><a href="#">Write Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social-media">
+            <h3>Follow us on social networks</h3>
+            <div class="social-icons">
+                <!-- Icons would be inserted here, either as images or icon fonts -->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy; 2024, PriceWiseHub, all rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

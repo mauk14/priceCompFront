@@ -1,0 +1,362 @@
+/*Filtering*/
+
+/* ... existing styles ... */
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+
+
+.product-display {
+    /* Styles for the product display area */
+}
+
+/* Sorting Options Styles */
+.sorting-options {
+    align-self: flex-end; /* Aligns sorting options to the right */
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea; /* Light grey border as seen in the image */
+    margin-left: 40px;
+}
+
+.sort-label {
+    margin-right: 20px; /* Spacing between label and buttons */
+    font-weight: 600; /* Bolder font for the label */
+}
+
+.sort-button {
+    background-color: transparent;
+    border: none;
+    margin-right: 10px; /* Spacing between buttons */
+    padding: 5px 10px; /* Padding inside buttons */
+    cursor: pointer;
+    font-size: 16px; /* Font size similar to the image */
+    color: #333; /* Darker text color for better contrast */
+    border-radius: 4px; /* Slight rounding of corners to match the image */
+}
+
+.sort-button:hover, .sort-button:focus {
+    background-color: #f0f0f0; /* Light background on hover/focus for feedback */
+    outline: none; /* Remove the default focus outline */
+}
+
+/* Active state style if needed */
+.sort-button.active {
+    color: #007bff; /* Highlight color for the active sorting option */
+    background-color: #e7f1ff; /* Very light background for the active button */
+}
+
+/* ... existing styles ... */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* ... additional styles ... */
+
+/* Responsive considerations */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Filter Panel Styles */
+
+.sorting-products-container {
+    flex: 3; /* Takes up 3 fractions of the available space, adjust as needed */
+    display: flex;
+    flex-direction: column; /* Stack sorting options and products grid vertically */
+}
+
+.filter-panel {
+    flex: 1; /* Takes up 1 fraction of the available space */
+    margin-right: 20px;
+    background-color: #f7f7f7;
+    padding: 30px; /* Increased padding */
+    border-radius: 8px;
+    width: 300px; /* Increased width */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: adding shadow for depth */
+}
+
+.filter-section {
+    margin-bottom: 30px; /* Increased spacing */
+}
+
+.filter-section h4 {
+    margin-bottom: 15px; /* Increased spacing */
+    color: #333;
+    font-size: 18px; /* Larger font size for headings */
+    font-weight: 600; /* Making the font weight bolder */
+    border-bottom: 2px solid #eaeaea; /* Adding a bottom border for definition */
+    padding-bottom: 10px; /* Padding under the heading */
+}
+
+.filter-input {
+    width: 100%; /* Full width of the sidebar minus padding */
+    padding: 12px; /* Larger padding for touch friendliness */
+    margin-bottom: 15px; /* Increased spacing */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.filter-button {
+    padding: 12px 25px; /* Larger padding for a bigger button */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block; /* Makes the button block level to fill container */
+    width: 100%; /* Button width fills the sidebar */
+    margin-top: 10px; /* Added space above the button */
+}
+
+.filter-rating, .filter-manufacturer {
+    margin-bottom: 10px; /* Increased spacing */
+}
+
+.filter-rating label, .filter-manufacturer label {
+    margin-left: 10px; /* Increased spacing */
+    font-size: 16px; /* Larger font size */
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .filter-panel {
+        width: 100%; /* Full width on smaller screens */
+        margin-bottom: 20px; /* Add space below when stacked on top of product grid */
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-panel {
+        padding: 20px; /* Adjust padding on very small screens */
+    }
+}
+
+/* ... existing styles ... */
+
+/* Products Grid Styles */
+.products-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spacing between product cards */
+}
+/* Product Card Styles */
+.product-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 40px;
+}
+
+.product-image {
+    width: 120px; /* Adjust as necessary */
+    height: auto;
+    margin-right: 20px;
+}
+
+.product-details {
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stars {
+    /* Using a colored font for the stars */
+    color: #FFD700;
+    margin-right: 5px;
+}
+
+.review-count {
+    font-size: 14px;
+    color: #666;
+}
+
+.product-specs {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.product-specs li {
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px; /* Space between specs */
+}
+
+.product-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.product-price-store {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.store-availability {
+    font-size: 14px;
+    color: #666;
+}
+
+.compare-price-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.compare-price-button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-image {
+        width: 100%;
+        max-width: 300px; /* Adjust the max-width as needed */
+        margin-bottom: 20px;
+    }
+
+    .product-price-store {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .compare-price-button {
+        width: 100%; /* Full width button on small screens */
+    }
+}
+
+/* Filter Section Styles */
+.filter-section h4 {
+    /* your existing styles */
+}
+
+.filter-construction,
+.filter-manufacturer {
+    margin-bottom: 10px;
+    display: block; /* or 'flex' if you want label next to the checkbox */
+}
+
+.filter-construction input[type="checkbox"],
+.filter-manufacturer input[type="checkbox"] {
+    margin-right: 5px;
+    /* additional styling if needed */
+}
+
+.filter-construction label,
+.filter-manufacturer label {
+    font-size: 14px;
+    color: #333;
+    /* additional styling if needed */
+}
+
+/* Filter Section Styles */
+.filter-section h4 {
+    /* ... existing styles ... */
+}
+
+.filter-type {
+    margin-bottom: 10px;
+}
+
+.filter-type input[type="checkbox"] {
+    margin-right: 5px;
+    /* additional styling if needed */
+}
+
+.filter-type label {
+    font-size: 14px;
+    color: #333;
+    /* additional styling if needed */
+}
+
+/* Filter Section Styles */
+.filter-section h4 {
+    /* ... existing styles ... */
+}
+
+.filter-transmission {
+    margin-bottom: 10px;
+}
+
+.filter-transmission input[type="checkbox"] {
+    margin-right: 5px;
+    /* additional styling if needed */
+}
+
+.filter-transmission label {
+    font-size: 14px;
+    color: #333;
+    /* additional styling if needed */
+}
+
+.filter-actions {
+    text-align: center; /* Center the button if the filter panel is full width */
+    padding-top: 20px; /* Add some space above the button */
+}
+
+.apply-filters-button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Use your primary brand color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase; /* Optional: makes the text uppercase */
+    letter-spacing: 1px; /* Optional: increases spacing between letters */
+    transition: background-color 0.3s ease; /* Optional: for a smooth color transition on hover */
+}
+
+.apply-filters-button:hover {
+    background-color: #0056b3; /* A slightly darker shade on hover for feedback */
+}

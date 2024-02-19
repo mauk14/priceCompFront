@@ -339,13 +339,43 @@ func logout(c *gin.Context) {
 
 func search(c *gin.Context) {
 	searchQuery := c.Query("search")
-	url := ""
-	if searchQuery != "" {
-		url = fmt.Sprintf("http://localhost:4003/search?search=%s", searchQuery)
-	} else {
-		c.Redirect(http.StatusFound, "/")
-		return
+	category := c.Query("category")
+	brand := c.QueryArray("brand[]")
+	fmt.Println(brand)
+	sortBy := c.Query("sortBy")
+	priceFrom := 0
+	priceTo := 1500000
+
+	if c.Query("priceFrom") != "" {
+		if newPriceFrom, err := strconv.Atoi(c.Query("priceFrom")); err == nil {
+			priceFrom = newPriceFrom
+		}
 	}
+
+	if c.Query("priceTo") != "" {
+		if newPriceTo, err := strconv.Atoi(c.Query("priceTo")); err == nil {
+			priceTo = newPriceTo
+		}
+	}
+
+	base := fmt.Sprintf("priceFrom=%d&priceTo=%d&", priceFrom, priceTo)
+	fmt.Println(brand)
+	if searchQuery != "" {
+		base += fmt.Sprintf("search=%s&", searchQuery)
+	}
+	if category != "" {
+		base += fmt.Sprintf("category=%s&", category)
+	}
+	if len(brand) != 0 {
+		for _, str := range brand {
+			base += "brand%5B%5D=" + str + "&"
+		}
+	}
+	if sortBy != "" {
+		base += fmt.Sprintf("sortBy=%s&", sortBy)
+	}
+	url := "http://localhost:4003/search?" + base + "limit=15"
+	fmt.Println(url)
 	products := make([]*Products, 0, 3)
 	res, err := http.Get(url)
 	if err != nil {
@@ -368,6 +398,7 @@ func search(c *gin.Context) {
 
 	email, _ := c.Get("user")
 	fmt.Println(email)
+
 	for _, product := range products {
 		avg := 0
 		minium := math.MaxInt32
@@ -387,8 +418,10 @@ func search(c *gin.Context) {
 		product.ShopsCount = len(product.Prices)
 	}
 
-	c.HTML(200, "MainPage.html", gin.H{
+	c.HTML(200, "Headphones.html", gin.H{
 		"email":    email,
 		"products": products,
+		"category": category,
+		"search":   searchQuery,
 	})
 }

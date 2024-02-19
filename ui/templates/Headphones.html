@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceWise Headphones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="/static/scripts/scripts.js"></script>
+    <link rel="stylesheet" href="/static/styles/styles.css">
+    <link rel="stylesheet" href="/static/styles/styles1.css">
+
+</head>
+<body>
+<header class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a style="text-decoration: none" href="/">
+                <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
+            </a>
+        </div>
+        <form action="/search" method="get">
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="product search" name="search">
+            <button class="search-button" type="submit">Search</button>
+        </div>
+        </form>
+        {{ if .email }}
+        <a href="/logout">
+            <button  class="login-button">{{ .email }}</button>
+        </a>
+        {{ else }}
+        <a href="/login">
+            <button  class="login-button">Log In</button>
+        </a>
+        {{ end }}
+    </div>
+</header>
+
+<div class="category-bar">
+    <a href="/search?category=smartphone" class="category-item">Mobiles</a>
+    <a href="/search?category=tablet" class="category-item">Tablets</a>
+    <a href="/search?category=laptop" class="category-item">Laptops</a>
+    <a href="/search?category=TV" class="category-item">Television</a>
+    <a href="/search?category=headphones" class="category-item">Headphones</a>
+</div>
+
+<section class="product-grid">
+    <aside class="filter-panel">
+        <form class="filter-section" action="/search" method="get">
+            <h4>Price</h4>
+            <input type="number" placeholder="From" class="filter-input" id="priceFrom" name="priceFrom">
+            <input type="number" placeholder="To" class="filter-input" id="priceTo" name="priceTo">
+
+
+            <h4>Sort</h4>
+            <div class="filter-rating">
+                <input type="radio" id="rateAbove95" name="sortBy" value="priceAsc">
+                <label for="rateAbove95">Cheapest</label>
+            </div>
+            <div class="filter-rating">
+                <input type="radio" id="rateAbove90" name="sortBy" value="priceDesc">
+                <label for="rateAbove90">Expensive</label>
+            </div>
+
+
+            <h4>Manufacturer</h4>
+            <div class="filter-manufacturer">
+                <input type="checkbox" id="apple" name="brand[]" value="Apple">
+                <label for="apple">Apple</label>
+            </div>
+            <div class="filter-manufacturer">
+                <input type="checkbox" id="sony" name="brand[]" value="Sony">
+                <label for="sony">Sony</label>
+            </div>
+            <div class="filter-manufacturer">
+                <input type="checkbox" id="samsung" name="brand[]" value="Samsung">
+                <label for="samsung">Samsung</label>
+            </div>
+            <!-- Add more checkboxes as needed -->
+
+
+        <!-- Construction Types Section -->
+<!--            <h4>Construction</h4>-->
+<!--            <div class="filter-construction">-->
+<!--                <input type="checkbox" id="overHead" name="construction[]" value="Over the head">-->
+<!--                <label for="overHead">Over the head</label>-->
+<!--            </div>-->
+<!--            <div class="filter-construction">-->
+<!--                <input type="checkbox" id="intoEars" name="construction[]" value="Into the ears">-->
+<!--                <label for="intoEars">Into the ears</label>-->
+<!--            </div>-->
+<!--            <div class="filter-construction">-->
+<!--                <input type="checkbox" id="behindEars" name="construction[]" value="Behind the ears">-->
+<!--                <label for="behindEars">Behind the ears</label>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Add more checkboxes as needed &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Headphone Types Section &ndash;&gt;-->
+<!--            <h4>Headphone type</h4>-->
+<!--            <div class="filter-type">-->
+<!--                <input type="checkbox" id="plugs" name="headphoneType" value="plugs">-->
+<!--                <label for="plugs">plugs</label>-->
+<!--            </div>-->
+<!--            <div class="filter-type">-->
+<!--                <input type="checkbox" id="closed" name="headphoneType" value="closed">-->
+<!--                <label for="closed">closed</label>-->
+<!--            </div>-->
+<!--            <div class="filter-type">-->
+<!--                <input type="checkbox" id="seeds" name="headphoneType" value="seeds">-->
+<!--                <label for="seeds">seeds</label>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Add more checkboxes as needed &ndash;&gt;-->
+
+<!--            <h4>Signal transmission</h4>-->
+<!--            <div class="filter-transmission">-->
+<!--                <input type="checkbox" id="wireless" name="signalTransmission" value="Wireless">-->
+<!--                <label for="wireless">Wireless</label>-->
+<!--            </div>-->
+<!--            <div class="filter-transmission">-->
+<!--                <input type="checkbox" id="cable" name="signalTransmission" value="Cable">-->
+<!--                <label for="cable">Cable</label>-->
+<!--            </div>-->
+            <!-- Add more checkboxes as needed -->
+            <input type="hidden" name="category" value="{{ .category }}">
+            <input type="hidden" name="search" value="{{ .search }}">
+            <button class="apply-filters-button" id="applyFilters" type="submit">Apply Filters</button>
+        </form>
+    </aside>
+
+    <div class="product-display">
+        <div class="sorting-options">
+            <span class="sort-label">Arrange:</span>
+            <button class="sort-button" id="favorite">Favorite</button>
+            <button class="sort-button" id="cheapest">The cheapest</button>
+            <button class="sort-button" id="most-reviews">Most reviews</button>
+            <button class="sort-button" id="most-expensive">The most expensive</button>
+        </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <!-- Product Card -->
+                {{ range .products}}
+                <article class="product-card">
+                    {{ range .Images }}
+                    {{ if .Main_image}}
+                    <img src="http://localhost:4002/data-collection/image/{{ .Id}}" alt="Apple AirPods Pro 2nd Generation" class="product-image">
+                    {{ end }}
+                    {{ end }}
+                    <div class="product-details">
+                        <h5 class="product-title">{{ .Brand }} {{ .ProductName}}</h5>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="review-count">96% 5 reviews</span>
+                        </div>
+                        <p class="product-description">
+                            {{ .Description }}
+                        </p>
+                        <div class="product-price-store">
+                            <span class="product-price">{{ .MinPrice }} - {{ .MaxPrice }}</span>
+                            <span class="store-availability">in {{ .ShopsCount }} stores</span>
+                        </div>
+                        <a href="/product/{{ .Product_id }}"><button class="compare-price-button">Compare price</button></a>
+                    </div>
+                </article>
+                {{ end }}
+                <!-- Repeat the above block for each product, changing the details as necessary -->
+            </div>
+
+
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="#">What is PriceWise?</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Vacancies</a></li>
+                <li><a href="#">For the media</a></li>
+            </ul>
+        </div>
+        <div class="footer-section customer-service">
+            <h3>For customers</h3>
+            <ul>
+                <li><a href="#">How to buy?</a></li>
+                <li><a href="#">Buy directly from us</a></li>
+                <li><a href="#">Consent settings</a></li>
+                <li><a href="#">Use of cookies</a></li>
+                <li><a href="#">Privacy Protection</a></li>
+            </ul>
+        </div>
+        <div class="footer-section partners">
+            <h3>For partners</h3>
+            <ul>
+                <li><a href="#">Administration of the e-shop</a></li>
+                <li><a href="#">Register a new e-shop</a></li>
+                <li><a href="#">Services for e-shop</a></li>
+                <li><a href="#">Brand services</a></li>
+                <li><a href="#">Data overview</a></li>
+            </ul>
+        </div>
+        <div class="footer-section feedback">
+            <h3>Feedback</h3>
+            <ul>
+                <li><a href="#">Write Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social-media">
+            <h3>Follow us on social networks</h3>
+            <div class="social-icons">
+                <!-- Icons would be inserted here, either as images or icon fonts -->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy; 2024, PriceWiseHub, all rights reserved.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>

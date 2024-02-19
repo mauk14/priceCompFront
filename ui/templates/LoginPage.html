@@ -16,10 +16,12 @@
                 <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
             </a>
         </div>
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="product search">
-            <button class="search-button">Search</button>
-        </div>
+        <form action="/search" method="get">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="product search" name="search">
+                <button class="search-button" type="submit">Search</button>
+            </div>
+        </form>
         <a href="/login">
             <button  class="login-button">Log In</button>
         </a>
@@ -27,11 +29,11 @@
 </header>
 
 <div class="category-bar">
-    <a href="#" class="category-item">Mobiles</a>
-    <a href="#" class="category-item">Tablets</a>
-    <a href="#" class="category-item">Laptops</a>
-    <a href="#" class="category-item">Television</a>
-    <a href="#" class="category-item">Headphones</a>
+    <a href="/search?category=smartphone" class="category-item">Mobiles</a>
+    <a href="/search?category=tablet" class="category-item">Tablets</a>
+    <a href="/search?category=laptop" class="category-item">Laptops</a>
+    <a href="/search?category=TV" class="category-item">Television</a>
+    <a href="/search?category=headphones" class="category-item">Headphones</a>
 </div>
 
 <div class="main-content">

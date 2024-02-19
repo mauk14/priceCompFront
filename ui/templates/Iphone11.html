@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PriceWise</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="scripts.js"></script>
+    <script src="/static/scripts/scripts.js"></script>
     <link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
@@ -17,10 +17,12 @@
                 <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
             </a>
         </div>
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="product search">
-            <button class="search-button">Search</button>
-        </div>
+        <form action="/search" method="get">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="product search" name="search">
+                <button class="search-button" type="submit">Search</button>
+            </div>
+        </form>
         {{ if .email }}
         <a href="/logout">
             <button  class="login-button">{{ .email }}</button>
@@ -34,11 +36,11 @@
 </header>
 
 <div class="category-bar">
-    <a href="#" class="category-item">Mobiles</a>
-    <a href="#" class="category-item">Tablets</a>
-    <a href="#" class="category-item">Laptops</a>
-    <a href="#" class="category-item">Television</a>
-    <a href="#" class="category-item">Headphones</a>
+    <a href="/search?category=smartphone" class="category-item">Mobiles</a>
+    <a href="/search?category=tablet" class="category-item">Tablets</a>
+    <a href="/search?category=laptop" class="category-item">Laptops</a>
+    <a href="/search?category=TV" class="category-item">Television</a>
+    <a href="/search?category=headphones" class="category-item">Headphones</a>
 </div>
 
 <div class="product-detail-section">
@@ -89,7 +91,7 @@
     <div class="stores-list">
         <!-- Repeat this structure for each store option -->
         {{ range .product.Prices }}
-        <div class="store" data-price="269991" data-rating="98">
+        <div class="store" data-price="{{ .Price }}" data-rating="98">
             <a href="{{ .Shop.Link }}"><span class="store-name">{{ .Shop.ShopName }}</span></a>
             <span class="stock-info">In stock • 1 variant</span>
             <span class="store-rating">98% • 311 reviews</span>

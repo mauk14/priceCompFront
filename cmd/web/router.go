@@ -14,7 +14,7 @@ func Route() *gin.Engine {
 
 	r.GET("/login", getLogin)
 	r.GET("/register", getReg)
-	r.GET("/search", search)
+	r.GET("/search", requireAuth, search)
 	r.POST("/register", postReg)
 	r.POST("/login", postLogin)
 

@@ -417,11 +417,26 @@ func search(c *gin.Context) {
 		product.AvgPrice = avg / len(product.Prices)
 		product.ShopsCount = len(product.Prices)
 	}
+	var brands []string
+	if category == "smartphone" {
+		brands = []string{"Apple", "Samsung", "Xiaomi"}
+	} else if category == "headphones" {
+		brands = []string{"Apple"}
+	} else if category == "TV" {
+		brands = []string{"Samsung"}
+	} else if category == "tablet" {
+		brands = []string{"Samsung"}
+	} else if category == "laptop" {
+		brands = []string{"Acer", "DEXP", "Lenovo", "ASUS", "HUAWEI", "ARDOR", "MSI"}
+	} else {
+		brands = []string{"Apple", "Samsung", "Xiaomi", "Sony", "GIGABYTE", "Realme", "Acer", "DEXP", "Lenovo", "ASUS", "HUAWEI", "ARDOR", "MSI"}
+	}
 
 	c.HTML(200, "Headphones.html", gin.H{
 		"email":    email,
 		"products": products,
 		"category": category,
 		"search":   searchQuery,
+		"brands":   brands,
 	})
 }

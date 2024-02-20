@@ -64,18 +64,20 @@
 
 
             <h4>Manufacturer</h4>
+            {{ range .brands }}
             <div class="filter-manufacturer">
-                <input type="checkbox" id="apple" name="brand[]" value="Apple">
-                <label for="apple">Apple</label>
+                <input type="checkbox" id="apple" name="brand[]" value="{{.}}">
+                <label for="apple">{{.}}</label>
             </div>
-            <div class="filter-manufacturer">
-                <input type="checkbox" id="sony" name="brand[]" value="Sony">
-                <label for="sony">Sony</label>
-            </div>
-            <div class="filter-manufacturer">
-                <input type="checkbox" id="samsung" name="brand[]" value="Samsung">
-                <label for="samsung">Samsung</label>
-            </div>
+            {{ end }}
+<!--            <div class="filter-manufacturer">-->
+<!--                <input type="checkbox" id="sony" name="brand[]" value="Sony">-->
+<!--                <label for="sony">Sony</label>-->
+<!--            </div>-->
+<!--            <div class="filter-manufacturer">-->
+<!--                <input type="checkbox" id="samsung" name="brand[]" value="Samsung">-->
+<!--                <label for="samsung">Samsung</label>-->
+<!--            </div>-->
             <!-- Add more checkboxes as needed -->
 
 

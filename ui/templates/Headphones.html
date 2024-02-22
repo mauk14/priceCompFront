@@ -79,7 +79,29 @@
 <!--                <label for="samsung">Samsung</label>-->
 <!--            </div>-->
             <!-- Add more checkboxes as needed -->
-
+            {{ if .smartPhoneFilters.Exist}}
+            <h4>RAM</h4>
+            {{range .smartPhoneFilters.Ram}}
+            <div class="filter-manufacturer">
+                <input type="checkbox" name="ram" value="{{.}}">
+                <label for="apple">{{.}}</label>
+            </div>
+            {{ end }}
+            <h4>Matrix</h4>
+            {{range .smartPhoneFilters.Matrix}}
+            <div class="filter-manufacturer">
+                <input type="checkbox" name="matrix" value="{{.}}">
+                <label for="apple">{{.}}</label>
+            </div>
+            {{end}}
+            <h4>Number of Cores</h4>
+            {{range .smartPhoneFilters.NumberOfCores}}
+            <div class="filter-manufacturer">
+                <input type="checkbox" name="numberOfCores" value="{{.}}">
+                <label for="apple">{{.}}</label>
+            </div>
+            {{end}}
+            {{ end }}
 
         <!-- Construction Types Section -->
 <!--            <h4>Construction</h4>-->

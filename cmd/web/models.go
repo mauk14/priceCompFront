@@ -48,3 +48,10 @@ type Prices struct {
 	Product_id int64  `json:"product_id"`
 	Link       string `json:"link"`
 }
+
+type SmartphoneFilter struct {
+	Matrix        []string `json:"matrix"`
+	Ram           []string `json:"ram"`
+	NumberOfCores []string `json:"number_of_cores"`
+	Exist         bool     `json:"exist"`
+}

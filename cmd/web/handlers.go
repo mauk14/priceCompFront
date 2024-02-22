@@ -341,6 +341,10 @@ func search(c *gin.Context) {
 	searchQuery := c.Query("search")
 	category := c.Query("category")
 	brand := c.QueryArray("brand[]")
+	ram := c.Query("ram")
+	matrix := c.Query("matrix")
+	numberOfCores := c.Query("numberOfCores")
+
 	fmt.Println(brand)
 	sortBy := c.Query("sortBy")
 	priceFrom := 0
@@ -418,8 +422,49 @@ func search(c *gin.Context) {
 		product.ShopsCount = len(product.Prices)
 	}
 	var brands []string
+	var smartphoneFilter SmartphoneFilter
+	filters := make(map[string]string)
+	if ram != "" {
+		filters["RAM capacity"] = ram
+	}
+	if matrix != "" {
+		filters["Matrix type (details)"] = matrix
+	}
+	if numberOfCores != "" {
+		filters["Number of Cores"] = numberOfCores
+	}
+
+	if ram != "" || matrix != "" || numberOfCores != "" {
+		productsToSend := make([]*Products, 0, 5)
+		match := true
+		for _, product := range products {
+			for key, value := range filters {
+				attributeMatch := false
+				for _, attr := range product.Attributes {
+					if attr.AttributeName == key && attr.AttributeValue == value {
+						attributeMatch = true
+						break
+					}
+				}
+				if !attributeMatch {
+					match = false
+					break
+				}
+				match = true
+			}
+			if match {
+				productsToSend = append(productsToSend, product)
+			}
+		}
+		fmt.Println(productsToSend)
+		products = productsToSend
+	}
 	if category == "smartphone" {
 		brands = []string{"Apple", "Samsung", "Xiaomi"}
+		smartphoneFilter.Ram = []string{"4 GB", "6 GB", "8 GB", "12 GB"}
+		smartphoneFilter.Matrix = []string{"OLED", "Dynamic AMOLED 2X", "Super Retina XDR"}
+		smartphoneFilter.NumberOfCores = []string{"2", "4", "6", "8"}
+		smartphoneFilter.Exist = true
 	} else if category == "headphones" {
 		brands = []string{"Apple"}
 	} else if category == "TV" {
@@ -433,10 +478,11 @@ func search(c *gin.Context) {
 	}
 
 	c.HTML(200, "Headphones.html", gin.H{
-		"email":    email,
-		"products": products,
-		"category": category,
-		"search":   searchQuery,
-		"brands":   brands,
+		"email":             email,
+		"products":          products,
+		"category":          category,
+		"search":            searchQuery,
+		"brands":            brands,
+		"smartPhoneFilters": smartphoneFilter,
 	})
 }

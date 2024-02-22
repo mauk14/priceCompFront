@@ -60,8 +60,19 @@ func requireAuth(c *gin.Context) {
 		//	ErrorResponse(c, http.StatusUnauthorized, "invalid authentication credentials")
 		//	return
 		//}
-		c.Set("user", claims["sub"].(string))
+
+		name := claims["name"].(string)
+		email := claims["email"].(string)
+		userId := int64(claims["userId"].(float64))
+		c.Set("name", name)
+		c.Set("email", email)
+		c.Set("userId", userId)
 
 		c.Next()
 	}
+}
+
+type userToken struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }

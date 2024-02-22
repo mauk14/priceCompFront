@@ -262,8 +262,8 @@ func getMain(c *gin.Context) {
 		return
 	}
 
-	email, _ := c.Get("user")
-	fmt.Println(email)
+	name, _ := c.Get("name")
+	fmt.Println(name)
 	for _, product := range products {
 		avg := 0
 		minium := math.MaxInt32
@@ -277,14 +277,29 @@ func getMain(c *gin.Context) {
 				maxium = product.Prices[i].Price
 			}
 		}
+		product.Reviews, err = getReviews(product.Product_id)
+		if err != nil {
+			ErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
 		product.MaxPrice = maxium
 		product.MinPrice = minium
 		product.AvgPrice = avg / len(product.Prices)
 		product.ShopsCount = len(product.Prices)
+		product.CountReviews = len(product.Reviews)
+		if product.CountReviews > 0 {
+			avg = 0
+			for i := range product.Reviews {
+				avg += int(product.Reviews[i].Rating)
+			}
+			product.AvgRating = avg / product.CountReviews
+		} else {
+			product.AvgRating = 0
+		}
 	}
 
 	c.HTML(200, "MainPage.html", gin.H{
-		"email":    email,
+		"email":    name,
 		"products": products,
 	})
 }
@@ -324,11 +339,28 @@ func getProduct(c *gin.Context) {
 	product.AvgPrice = avg / len(product.Prices)
 	product.ShopsCount = len(product.Prices)
 
-	email, _ := c.Get("user")
-	fmt.Println(email)
+	product.Reviews, err = getReviews(product.Product_id)
+	if err != nil {
+		ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	product.CountReviews = len(product.Reviews)
+	if product.CountReviews > 0 {
+		avg = 0
+		for i := range product.Reviews {
+			avg += int(product.Reviews[i].Rating)
+		}
+		product.AvgRating = avg / product.CountReviews
+	} else {
+		product.AvgRating = 0
+	}
+
+	name, _ := c.Get("name")
+	fmt.Println(name)
 	c.HTML(200, "Iphone11.html", gin.H{
 		"product": product,
-		"email":   email,
+		"email":   name,
 	})
 }
 
@@ -400,8 +432,8 @@ func search(c *gin.Context) {
 		return
 	}
 
-	email, _ := c.Get("user")
-	fmt.Println(email)
+	name, _ := c.Get("name")
+	fmt.Println(name)
 
 	for _, product := range products {
 		avg := 0
@@ -420,6 +452,24 @@ func search(c *gin.Context) {
 		product.MinPrice = minium
 		product.AvgPrice = avg / len(product.Prices)
 		product.ShopsCount = len(product.Prices)
+
+		product.Reviews, err = getReviews(product.Product_id)
+		if err != nil {
+			ErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		product.CountReviews = len(product.Reviews)
+		if product.CountReviews > 0 {
+			avg = 0
+			for i := range product.Reviews {
+				avg += int(product.Reviews[i].Rating)
+			}
+			product.AvgRating = avg / product.CountReviews
+		} else {
+			product.AvgRating = 0
+		}
+
 	}
 	var brands []string
 	var smartphoneFilter SmartphoneFilter
@@ -478,11 +528,146 @@ func search(c *gin.Context) {
 	}
 
 	c.HTML(200, "Headphones.html", gin.H{
-		"email":             email,
+		"email":             name,
 		"products":          products,
 		"category":          category,
 		"search":            searchQuery,
 		"brands":            brands,
 		"smartPhoneFilters": smartphoneFilter,
 	})
+}
+
+func getReview(c *gin.Context) {
+	params := c.Param("id")
+	id, err := strconv.ParseInt(params, 10, 64)
+	if err != nil {
+		ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	product, err := getProd(id)
+	if err != nil {
+		switch {
+		case errors.Is(err, ErrInvalidId):
+			c.Redirect(http.StatusFound, "/")
+		default:
+			ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		}
+		return
+
+	}
+
+	avg := 0
+	minium := math.MaxInt32
+	maxium := 0
+	for i := range product.Prices {
+		avg += product.Prices[i].Price
+		if product.Prices[i].Price < minium {
+			minium = product.Prices[i].Price
+		}
+		if product.Prices[i].Price > maxium {
+			maxium = product.Prices[i].Price
+		}
+	}
+	product.MaxPrice = maxium
+	product.MinPrice = minium
+	product.AvgPrice = avg / len(product.Prices)
+	product.ShopsCount = len(product.Prices)
+
+	name, _ := c.Get("name")
+	fmt.Println(name)
+
+	product.Reviews, err = getReviews(id)
+	if err != nil {
+		ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	for i := range product.Reviews {
+		product.Reviews[i].Username, err = getUser(product.Reviews[i].User_id)
+		if err != nil {
+			ErrorResponse(c, http.StatusInternalServerError, err.Error())
+			return
+		}
+		product.Reviews[i].ConvertTime = product.Reviews[i].Created_at.Format("January 2, 2006")
+	}
+
+	product.CountReviews = len(product.Reviews)
+	if product.CountReviews > 0 {
+		avg = 0
+		for i := range product.Reviews {
+			avg += int(product.Reviews[i].Rating)
+		}
+		product.AvgRating = avg / product.CountReviews
+	} else {
+		product.AvgRating = 0
+	}
+
+	c.HTML(200, "reviews.html", gin.H{
+		"product": product,
+		"email":   name,
+	})
+}
+
+func postReview(c *gin.Context) {
+	fmt.Println(c.Request.URL)
+	params := c.Param("id")
+	id, err := strconv.ParseInt(params, 10, 64)
+	if err != nil {
+		ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	_, err = c.Cookie("Authorization")
+	if err != nil {
+		c.Redirect(http.StatusFound, fmt.Sprintf("/product/%d/review", id))
+	}
+	message, _ := c.GetPostForm("review-text")
+	rating, _ := c.GetPostForm("rating")
+	userId, _ := c.Get("userId")
+
+	var input struct {
+		Message    string `json:"message"`
+		Rating     uint   `json:"rating"`
+		User_id    int64  `json:"user_id"`
+		Product_id int64  `json:"product_id"`
+	}
+	ratingInt, err := strconv.Atoi(rating)
+	if err != nil {
+		ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	input.Message = message
+	input.Rating = uint(ratingInt)
+	input.User_id = userId.(int64)
+	input.Product_id = id
+
+	fmt.Println(input)
+
+	jsonData, err := json.Marshal(input)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+			"error": "problems with json login",
+		})
+		return
+	}
+
+	req, err := http.NewRequest("POST", "http://localhost:4004/review", bytes.NewBuffer(jsonData))
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+			"error": "problems with req login",
+		})
+		return
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{
+			"error": "problems with resp login",
+		})
+		return
+	}
+	defer resp.Body.Close()
+
+	c.Redirect(http.StatusFound, fmt.Sprintf("/product/%d/review", id))
+
 }

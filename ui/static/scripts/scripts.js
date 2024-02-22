@@ -51,3 +51,9 @@ document.getElementById('applyFilters').addEventListener('click', function() {
     // You would likely have a function like this:
     // applyFilters(manufacturer, headphoneType);
 });
+
+
+
+
+
+

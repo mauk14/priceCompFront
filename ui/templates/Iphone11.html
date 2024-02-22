@@ -62,8 +62,8 @@
     <div class="product-info">
         <h2 class="product-title">{{ .product.Brand }} {{ .product.ProductName }}</h2>
         <div class="product-rating">
-            <span class="stars">⭐ 96%</span>
-            <span class="number-of-reviews">5 reviews</span>
+            <span class="stars">⭐ {{.product.AvgRating}}%</span>
+            <span class="number-of-reviews">{{.product.CountReviews}} reviews</span>
         </div>
         <p class="product-description">
             {{ .product.Description }}</a>
@@ -72,7 +72,7 @@
         <div class="product-actions">
             <a href="#" class="buy-link">Where to buy</a>
             <a href="#" class="specifications-link">Specifications</a>
-            <a href="#" class="reviews-link">Reviews</a>
+            <a href="/product/{{ .product.Product_id }}/review" class="reviews-link">Reviews</a>
         </div>
     </div>
 </div>

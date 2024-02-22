@@ -88,8 +88,8 @@
                 <h3 class="product-name">{{ .Brand }} {{ .ProductName}}</h3>
                 <div class="product-rating">
                     <span class="stars">★★★★★</span> <!-- Ideally, use an icon font or SVG for stars -->
-                    <span class="rating">95%</span>
-                    <span class="reviews">5 reviews</span>
+                    <span class="rating">{{.AvgRating}}%</span>
+                    <span class="reviews">{{.CountReviews}} reviews</span>
                 </div>
                 <div class="product-price">
                     <span class="price-range">{{ .MinPrice }} - {{ .MaxPrice }}</span>

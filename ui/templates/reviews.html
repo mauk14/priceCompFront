@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceWise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="/static/scripts/scripts.js"></script>
+    <script src="/static/scripts/scripts1.js"></script>
+    <link rel="stylesheet" href="/static/styles/styles.css">
+    <link rel="stylesheet" href="/static/styles/styles3.css">
+
+</head>
+<body>
+
+<header class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a style="text-decoration: none" href="/">
+                <span class="logo-primary">Price</span><span class="logo-accent">Wise</span>
+            </a>
+        </div>
+        <form action="/search" method="get">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="product search" name="search">
+                <button class="search-button" type="submit">Search</button>
+            </div>
+        </form>
+        {{ if .email }}
+        <a href="/logout">
+            <button  class="login-button">{{ .email }}</button>
+        </a>
+        {{ else }}
+        <a href="/login">
+            <button  class="login-button">Log In</button>
+        </a>
+        {{ end }}
+    </div>
+</header>
+
+<div class="category-bar">
+    <a href="/search?category=smartphone" class="category-item">Mobiles</a>
+    <a href="/search?category=tablet" class="category-item">Tablets</a>
+    <a href="/search?category=laptop" class="category-item">Laptops</a>
+    <a href="/search?category=TV" class="category-item">Television</a>
+    <a href="/search?category=headphones" class="category-item">Headphones</a>
+</div>
+
+<div class="product-detail-section">
+    <div class="product-gallery">
+        {{ range .product.Images }}
+        <img src="http://localhost:4002/data-collection/image/{{.Id}}" alt="Thumbnail 1" class="main-product-image">
+        {{ end }}
+        <!--        <img id="main-product-image" src="https://im9.cz/iR/importprodukt-orig/614/614df0398877927532c95ae5b2c7bc7d&#45;&#45;mm2000x2000.jpg" alt="Main Product" class="main-product-image">-->
+        <div class="thumbnail-container">
+            <!-- Thumbnails of the product -->
+            <!--            {{ range .product.Images }}-->
+            <!--            <img src="http://localhost:4002/data-collection/image/{{.Id}}" alt="Thumbnail 1" class="thumbnail">-->
+            <!--            {{ end }}-->
+            <!--            <img src="https://im9.cz/iR/importprodukt-orig/8ae/8ae982b172235c1a032de8574d8cab04&#45;&#45;mm2000x2000.jpg" alt="Thumbnail 1" class="thumbnail" onclick="changeImage('https://im9.cz/iR/importprodukt-orig/8ae/8ae982b172235c1a032de8574d8cab04&#45;&#45;mm2000x2000.jpg')">-->
+            <!--            <img src="https://im9.cz/iR/importprodukt-orig/31c/31cdc2ad8d44fa039a213567d51c3f99&#45;&#45;mm2000x2000.jpg" alt="Thumbnail 2" class="thumbnail" onclick="changeImage('https://im9.cz/iR/importprodukt-orig/31c/31cdc2ad8d44fa039a213567d51c3f99&#45;&#45;mm2000x2000.jpg')">-->
+            <!-- Add more thumbnails as needed -->
+        </div>
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">{{ .product.Brand }} {{ .product.ProductName }}</h2>
+        <div class="product-rating">
+            <span class="stars">⭐ {{.product.AvgRating}}%</span>
+            <span class="number-of-reviews">{{.product.CountReviews}} reviews</span>
+        </div>
+        <p class="product-description">
+            {{ .product.Description }}</a>
+        </p>
+        <p class="product-price">{{ .product.AvgPrice }} tenge</p>
+        <div class="product-actions">
+            <a href="/product/{{.product.Product_id}}" class="buy-link">Where to buy</a>
+            <a href="#" class="specifications-link">Specifications</a>
+            <a href="#" class="reviews-link">Reviews</a>
+        </div>
+    </div>
+</div>
+
+<div class="product-rating-section">
+    <h2>Product rating</h2>
+    <div class="rating-overview">
+        <div class="rating-score">
+            <span class="rating-percentage">96%</span>
+            <div class="rating-stars">
+                <!-- Assuming 5 stars maximum -->
+                <span>★★★★★</span>
+                <span class="rating-count">average of 5 ratings</span>
+            </div>
+        </div>
+        <div class="rating-breakdown">
+            <div class="rating-bar-container">
+                <div class="rating-bar rating-bar-5" style="width: 80%;">4x</div>
+            </div>
+            <div class="rating-bar-container">
+                <div class="rating-bar rating-bar-4" style="width: 20%;">1x</div>
+            </div>
+            <div class="rating-bar-container">
+                <div class="rating-bar rating-bar-3" style="width: 0%;">0x</div>
+            </div>
+            <div class="rating-bar-container">
+                <div class="rating-bar rating-bar-2" style="width: 0%;">0x</div>
+            </div>
+            <div class="rating-bar-container">
+                <div class="rating-bar rating-bar-1" style="width: 0%;">0x</div>
+            </div>
+        </div>
+    </div>
+    <div class="rating-recommendation">
+        <span class="recommendation-positive">5 customers recommend the product</span>
+        <span class="recommendation-negative">0 the customer does not recommend the product</span>
+    </div>
+</div>
+
+<div class="reviews-section">
+    <div class="review-filters">
+        <button class="review-filter-button active" onclick="filterReviews('all')">All</button>
+        <button class="review-filter-button" onclick="filterReviews('photo')">With photo</button>
+        <button class="review-filter-button" onclick="filterReviews('positive')">Positive</button>
+        <button class="review-filter-button" onclick="filterReviews('negative')">Negative</button>
+    </div>
+    <div class="reviews-container">
+        <!-- Repeat this block for each review -->
+        {{ range .product.Reviews}}
+        <div class="review" data-review-type="positive">
+            <div class="review-header">
+                <span class="verified-customer">{{ .Username}}</span>
+                <span class="review-date"> added on {{ .ConvertTime}}</span>
+            </div>
+            <div class="review-rating">
+                <!-- Static example of a 4-star rating, replace with dynamic generation if needed -->
+                <span class="review-stars">⭐ {{.Rating}}</span>
+            </div>
+            <div class="review-body">
+                <div class="review-content">
+                    <p class="review-recommendation">Recommends the product</p>
+                    <p class="review-text">{{ .Message }}</p>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+<!--        <div class="review" data-review-type="positive">-->
+<!--            <div class="review-header">-->
+<!--                <span class="verified-customer">Verified customer</span>-->
+<!--                <span class="review-date">added on November 14, 2023, purchased at technodom.kz</span>-->
+<!--            </div>-->
+<!--            <div class="review-rating">-->
+<!--                &lt;!&ndash; Static example of a 4-star rating, replace with dynamic generation if needed &ndash;&gt;-->
+<!--                <span class="review-stars">★★★★☆</span>-->
+<!--            </div>-->
+<!--            <div class="review-body">-->
+<!--                <div class="review-content">-->
+<!--                    <p class="review-recommendation">Recommends the product</p>-->
+<!--                    <p class="review-text">Quality Active noise reduction is just space. Background sound mode, where there are sounds of the ocean, rain, stream... Long autonomous operation.</p>-->
+<!--                    <p class="review-comment">Comment: A great pair for an iPhone. I advise everyone who has an apple.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        <div class="review" data-review-type="photo" >-->
+<!--            <div class="review-header">-->
+<!--                <span class="verified-customer">Verified customer</span>-->
+<!--                <span class="review-date">added on November 14, 2023, purchased at technodom.kz</span>-->
+<!--            </div>-->
+<!--            <div class="review-rating">-->
+<!--                &lt;!&ndash; Static example of a 4-star rating, replace with dynamic generation if needed &ndash;&gt;-->
+<!--                <span class="review-stars">★★★★☆</span>-->
+<!--            </div>-->
+<!--            <div class="review-body">-->
+<!--                <div class="review-content">-->
+<!--                    <p class="review-recommendation">Recommends the product</p>-->
+<!--                    <p class="review-text">Quality Active noise reduction is just space. Background sound mode, where there are sounds of the ocean, rain, stream... Long autonomous operation.</p>-->
+<!--                    <p class="review-comment">Comment: A great pair for an iPhone. I advise everyone who has an apple.</p>-->
+<!--                </div>-->
+<!--                <div class="review-photos-container">-->
+<!--                    &lt;!&ndash; Photo Row for Horizontal Scrolling &ndash;&gt;-->
+<!--                    <div class="review-photo-row">-->
+<!--                        <img src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fapi.technodom.kz%2Ff3%2Fapi%2Fv1%2Fimages%2Ftdkz-feedback_952756a4a702bb7717fa528eef835224&w=256&q=75" alt="Review photo 1" class="review-photo">-->
+<!--                        <img src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fapi.technodom.kz%2Ff3%2Fapi%2Fv1%2Fimages%2Ftdkz-feedback_952756a4a702bb7717fa528eef835224&w=256&q=75" alt="Review photo 2" class="review-photo">-->
+<!--                        <img src="https://www.technodom.kz/_next/image?url=https%3A%2F%2Fapi.technodom.kz%2Ff3%2Fapi%2Fv1%2Fimages%2Ftdkz-feedback_952756a4a702bb7717fa528eef835224&w=256&q=75" alt="Review photo 3" class="review-photo">-->
+<!--                        &lt;!&ndash; Add more images as needed &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!-- ... other reviews ... -->
+    </div>
+    <!-- Write a Review Section -->
+    <div class="write-review-section">
+        <h2>Write a Review</h2>
+        <form id="write-review-form" action="/product/{{ .product.Product_id }}/review" method="post">
+            <div class="form-group">
+                <label for="review-text">Your Review</label>
+                <textarea id="review-text" name="review-text" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Your Rating</label>
+                <div class="rating-input">
+                    <label for="star5">0%</label><input type="range" id="star5" name="rating" min="0" max="100" step="1" value="50"><label for="star5">100%</label>
+<!--                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">5 stars</label>-->
+<!--                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">4 stars</label>-->
+<!--                    <input type="radio" id="star3" name="rating" value="3"><label for="star3">3 stars</label>-->
+<!--                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">2 stars</label>-->
+<!--                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">1 star</label>-->
+                </div>
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="review-photos">Upload Photos</label>-->
+<!--                <input type="file" id="review-photos" name="review-photos" accept="image/*" multiple>-->
+<!--            </div>-->
+            <button type="submit" class="submit-review-btn">Submit Review</button>
+        </form>
+    </div>
+
+</div>
+
+
+
+<!-- Other sections will go here -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="#">What is PriceWise?</a></li>
+                <li><a href="#">Contacts</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Vacancies</a></li>
+                <li><a href="#">For the media</a></li>
+            </ul>
+        </div>
+        <div class="footer-section customer-service">
+            <h3>For customers</h3>
+            <ul>
+                <li><a href="#">How to buy?</a></li>
+                <li><a href="#">Buy directly from us</a></li>
+                <li><a href="#">Consent settings</a></li>
+                <li><a href="#">Use of cookies</a></li>
+                <li><a href="#">Privacy Protection</a></li>
+            </ul>
+        </div>
+        <div class="footer-section partners">
+            <h3>For partners</h3>
+            <ul>
+                <li><a href="#">Administration of the e-shop</a></li>
+                <li><a href="#">Register a new e-shop</a></li>
+                <li><a href="#">Services for e-shop</a></li>
+                <li><a href="#">Brand services</a></li>
+                <li><a href="#">Data overview</a></li>
+            </ul>
+        </div>
+        <div class="footer-section feedback">
+            <h3>Feedback</h3>
+            <ul>
+                <li><a href="#">Write Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social-media">
+            <h3>Follow us on social networks</h3>
+            <div class="social-icons">
+                <!-- Icons would be inserted here, either as images or icon fonts -->
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>Copyright &copy; 2024, PriceWiseHub, all rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

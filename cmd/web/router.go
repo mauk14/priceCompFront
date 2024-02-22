@@ -10,6 +10,8 @@ func Route() *gin.Engine {
 
 	r.GET("/", requireAuth, getMain)
 	r.GET("/product/:id", requireAuth, getProduct)
+	r.GET("/product/:id/review", requireAuth, getReview)
+	r.POST("/product/:id/review", requireAuth, postReview)
 	r.GET("/logout", logout)
 
 	r.GET("/login", getLogin)

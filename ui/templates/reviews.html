@@ -84,7 +84,7 @@
     <h2>Product rating</h2>
     <div class="rating-overview">
         <div class="rating-score">
-            <span class="rating-percentage">96%</span>
+            <span class="rating-percentage">{{.product.AvgRating}}%</span>
             <div class="rating-stars">
                 <!-- Assuming 5 stars maximum -->
                 <span>★★★★★</span>
@@ -118,7 +118,7 @@
 <div class="reviews-section">
     <div class="review-filters">
         <button class="review-filter-button active" onclick="filterReviews('all')">All</button>
-        <button class="review-filter-button" onclick="filterReviews('photo')">With photo</button>
+<!--        <button class="review-filter-button" onclick="filterReviews('photo')">With photo</button>-->
         <button class="review-filter-button" onclick="filterReviews('positive')">Positive</button>
         <button class="review-filter-button" onclick="filterReviews('negative')">Negative</button>
     </div>
